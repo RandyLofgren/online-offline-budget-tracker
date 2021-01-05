@@ -1,4 +1,4 @@
-// Instructor Provided File | Time Concerns
+// Instructor Provided File | Given Base File
 let db;
 const request = indexedDB.open("budget", 1);
 
