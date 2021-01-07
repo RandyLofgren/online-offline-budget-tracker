@@ -1,9 +1,16 @@
 
 const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
-const FILES_TO_CACHE = ['/', 'index.html', 'style.css', 'db.js', 'index.js']
 
-// const PRE_CACHE = 'precache-v5'
+
+const iconSizes = ["192", "512"];
+const iconFiles = iconSizes.map(
+  (size) => `icons/icon-${size}x${size}.png`
+);
+
+const FILES_TO_CACHE = ['/', '/index.html', '/styles.css', '/db.js', '/index.js', "/manifest.webmanifest"].concat(iconFiles);
+
+
 
 
 
@@ -12,9 +19,9 @@ const FILES_TO_CACHE = ['/', 'index.html', 'style.css', 'db.js', 'index.js']
 
 self.addEventListener("install", function (evt) {
   // pre cache image data
-  evt.waitUntil(
-    caches.open(DATA_CACHE_NAME).then((cache) => cache.add("/api/images"))
-  );
+  // evt.waitUntil(
+  //   caches.open(DATA_CACHE_NAME).then((cache) => cache.add("/api/images"))
+  // );
 
   // pre cache all static assets
   evt.waitUntil(
@@ -50,6 +57,7 @@ self.addEventListener('fetch', function (evt) {
   if (evt.request.url.includes("/api/")) {
     evt.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
+         console.log("working!")
         return fetch(evt.request)
           .then(response => {
             // If the response was good, clone it and store it in the cache.
